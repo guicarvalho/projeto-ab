@@ -1,0 +1,30 @@
+version: "3"
+services:
+
+  cars-api:
+    container_name: cars-api
+    build: .
+    volumes:
+      - ".:/usr/src/app"
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=development
+      - FLASK_APP=app.py
+    volumes:
+      - .:/project
+    depends_on:
+      - cars-db
+
+  cars-db:
+    container_name: cars-db
+    image: postgres:9.5
+    volumes:
+      - cars-pg-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASS=root
+      - POSTGRES_DB=cars_api
+
+volumes:
+  cars-pg-data:
